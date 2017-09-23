@@ -6,10 +6,8 @@
 
 		<script type='text/javascript' src='libs/split.js'></script>
 		<script type='text/javascript' src='libs/gl-matrix-min.js'></script>
-		<script type='text/javascript' src='libs/gl_shaders.js'></script>
 		<script type='text/javascript' src='libs/gl_orbitCam.js'></script>
-		<script type='text/javascript' src='media/shader_frag_main.js'></script>
-		<script type='text/javascript' src='media/shader_vert_main.js'></script>
+		<script type='text/javascript' src='renderer.js'></script>
 		<script type='text/javascript' src='scene.js'></script>
 
 		<style>
@@ -39,9 +37,8 @@
 			{
 				cursor: col-resize;
 				height: 100%;
-				widgth: 9px;
 				float: left;
-				background-image: url('media/grip.png');
+				background-image: url('grip.png');
 				background-color: gray;
 				background-repeat: no-repeat;
 				background-position: 50%;
@@ -58,7 +55,8 @@
 <script type='text/javascript'>
 	Split(['#editor', '#scene'], {
 		sizes: [25, 75],
-		minSize: 200
+		minSize: 200,
+		gutterSize: 9
 	});
 </script>
 

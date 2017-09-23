@@ -1,14 +1,45 @@
+- Setup renderer
 - create lib to render primitive meshes (sphere and column)
+
 - create a sceneState object and render with it
   - use sphere and column for vertices and edges
 - create methods to setup a scenestate (the methods used in script)
   - v(), c(), vector(), color()
-- add a statusbar lib
 - have script be called on each change to setup new scenestate.  If valid and different from current scenestate then set as current
-- id script is bad, show error in status bar and set its color
-- save script as cookie (or whatever)
-- save drag place and mouse sensitivity and selected shader as cookie (or whatever)
+
+- add a statusbar lib
+	- 2 parts: left=error, right=hovered point location and label
+- if script is bad, show error in status bar and set its color
+
 - look into opening and saving in client js
-- add demos dropdown
-- add shader selection (flat, fo-lit, top-lit, top-bottom-lit)
+- setup menu
+	- file: new, open..., save, save as..., exit
+	- demos
+		- box
+		- sphere
+		- face
+		- ...
+	- Settings
+		- ^ Show labels
+		- ^ show coordinates
+		- select shader
+			- ^- flat
+			- ^- view-lit
+			- ^- top-lit
+			- ^- top/bottom-lit
+		-------
+		- mouse sensitivity: num select (like zoom in firefox)
+		- zoom sensitivity: num select
+		-------
+		- ^ outline triangles
+		- outline color...
+		- outline size: num select
+		-------
+		- point/line color...
+		- Point/line size: num select
+		- point/line resolution: num select (1 to 4)
+- save settings (and split place) as cookie (or whatever)
+- save script as cookie (or whatever)
+
+- hovering over points in the 3d scene highlights them and brings up their info in statusbar
 

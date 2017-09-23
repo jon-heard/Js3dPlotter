@@ -1,6 +1,6 @@
 "use strict";
 
-function new_orbitCam(canvas, repaint)
+function new_OrbitCam(canvas, repaint)
 {
 	var mouseSensitivity = .1;
 	var zoomSpeed = .5;
