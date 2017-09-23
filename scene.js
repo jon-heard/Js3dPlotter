@@ -1,4 +1,5 @@
 
+var orbitCam;
 var mainCanvas;
 var gl;
 var mainShader;
@@ -96,7 +97,7 @@ function scene_draw()
 {
 	gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
 
-	mat4.copy(matModelView, orbitCam_getView());
+	mat4.copy(matModelView, orbitCam.getView());
 
 	mat4.translate(matModelView, matModelView, [-1.5, 0.0, 0.0]);
 	gl.bindBuffer(gl.ARRAY_BUFFER, triPositionBuffer);
@@ -128,7 +129,7 @@ function tick()
 		gl.viewportWidth = width;
 		gl.viewportHeight = height;
 		gl.viewport(0, 0, width, height);
-		mat4.perspective(matProjection, 45, width / height, 0.1, 100.0);
+		mat4.perspective(matProjection, 45, width / height, 0.1, 1000.0);
 		scene_draw();
 	}
 	requestAnimationFrame(tick);
@@ -140,7 +141,7 @@ function scene_init(canvasId)
 	scene_initGL(canvas);
 	scene_initShaders();
 	scene_initGeometry();
-	orbitCam_init(canvas, scene_draw);
+	orbitCam  = new_orbitCam(canvas, scene_draw);
 
 	gl.clearColor(0.0, 0.0, 0.0, 1.0);
 	gl.enable(gl.DEPTH_TEST);

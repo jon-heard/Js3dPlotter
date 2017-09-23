@@ -1,52 +1,74 @@
+"use strict";
 
-var mouseSensitivity = .05;
-
-var view = mat4.create();
-var rotX = 0;
-var rotY = 0;
-var onDraw;
-var isMouseDown = false;
-var prevMouseX = 0;
-var prevMouseY = 0;
-
-function orbitCam_init(canvas, pOnDraw)
+function new_orbitCam(canvas, repaint)
 {
-	canvas.onmousedown = orbitCam_onMouseDown;
-	document.onmouseup = orbitCam_onMouseUp;
-	document.onmousemove = orbitCam_onMouseMove;
-	onDraw = pOnDraw;
-}
+	var mouseSensitivity = .1;
+	var zoomSpeed = .5;
 
-function orbitCam_getView()
-{
-	mat4.identity(view);
-	mat4.translate(view, view, [0.0, 0.0, -7.0]);
-	mat4.rotate(view, view, rotX, [0, 1, 0]);
-	mat4.rotate(view, view, rotY, [1, 0, 0]);
-	return view;
-}
+	var view = mat4.create();
+	var rotation = quat.create();
+	var position = vec3.fromValues(0.0, 0.0, -10.0);
 
-function orbitCam_onMouseDown(event)
-{
-	prevMouseX = event.clientX;
-	prevMouseY = event.clientY;
-	isMouseDown = true;
-}
+	var previousMouse = vec3.create();
+	var previousRotation = quat.create();
 
-function orbitCam_onMouseUp(event)
-{
-	isMouseDown = false;
-}
-
-function orbitCam_onMouseMove(event)
-{
-	if (isMouseDown)
+	canvas.onmousedown = function(event)
 	{
-		rotX += (event.clientX - prevMouseX) * mouseSensitivity;
-		rotY += (event.clientY - prevMouseY) * mouseSensitivity;
-		onDraw();
-		prevMouseX = event.clientX;
-		prevMouseY = event.clientY;
+		if (event.buttons == 1)
+		{
+			vec3.set(previousMouse, event.clientY, event.clientX, 0);
+			quat.copy(previousRotation, rotation);
+		}
+	};
+
+	var mouseDelta = vec3.create();
+	canvas.onmousemove = function(event)
+	{
+		if (event.buttons == 1)
+		{
+			vec3.sub(mouseDelta, vec3.fromValues(event.clientY, event.clientX, 0), previousMouse);
+			vec2.normalize(mouseDelta, mouseDelta);
+			if (vec2.len(mouseDelta) > 0)
+			{
+				quat.setAxisAngle(rotation, mouseDelta, vec2.len(mouseDelta) * mouseSensitivity);
+				quat.mul(rotation, rotation, previousRotation);
+				canvas.onmousedown(event);
+				repaint();
+			}
+		}
+	};
+
+	canvas.onwheel = function(event)
+	{
+		position[2] -= (event.deltaX + event.deltaY) * zoomSpeed;
+		if (position[2] > -1)
+		{
+			position[2] = -1;
+		}
+		repaint();
+	};
+
+	function getView()
+	{
+		mat4.fromRotationTranslation(view, rotation, position);
+		return view;
 	}
+
+	function getMouseSensitivity() { return mouseSensitivity; }
+	function setMouseSensitivity(value) { mouseSensitivity = value; }
+	function getZoomSpeed() { return zoomSpeed; }
+	function setZoomSpeed(value) { zoomSpeed = value; }
+	function getViewDistance() { return position[2] * -1; }
+	function setViewDistance(value) { position[2] = value * -1; }
+
+	return {
+		getView: getView,
+		getMouseSensitivity: getMouseSensitivity,
+		setMouseSensitivity: setMouseSensitivity,
+		getZoomSpeed: getZoomSpeed,
+		setZoomSpeed: setZoomSpeed,
+		getViewDistance: getViewDistance,
+		setViewDistance: setViewDistance
+	};
 }
 

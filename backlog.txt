@@ -1,6 +1,3 @@
-- setup git repository
-- encapsulate orbit lib
-- fix orbit lib to react to drag properly (like demo for BostonSci)
 - add fo-light shader
 - create lib to render primitive meshes (sphere and column)
 - create a sceneState object and render with it
@@ -11,7 +8,7 @@
 - have script be called on each change to setup new scenestate.  If valid and different from current scenestate then set as current
 - id script is bad, show error in status bar and set its color
 - save script as cookie (or whatever)
-- save drag place as cookie (or whatever)
+- save drag place and mouse sensitivity as cookie (or whatever)
 - look into opening and saving in client js
 - add demos dropdown
 - add shader selection (flat, fo-lit, top-lit, top-bottom-lit)
