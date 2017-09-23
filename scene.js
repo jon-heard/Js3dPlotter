@@ -9,6 +9,7 @@ var triPositionBuffer;
 var triColorBuffer;
 var rectPositionBuffer;
 var rectColorBuffer;
+var normalBuffer;
 
 function scene_initGL(canvas)
 {
@@ -29,10 +30,16 @@ function scene_initShaders()
 {
 	mainShader = gl_buildShaderProgram(shader_vert_main, shader_frag_main);
 	gl.useProgram(mainShader);
+
 	mainShader.vertPosition = gl.getAttribLocation(mainShader, "vertPosition");
 	gl.enableVertexAttribArray(mainShader.vertPosition);
+
 	mainShader.vertColor = gl.getAttribLocation(mainShader, "vertColor");
 	gl.enableVertexAttribArray(mainShader.vertColor);
+
+	mainShader.vertNormal = gl.getAttribLocation(mainShader, "vertNormal");
+	gl.enableVertexAttribArray(mainShader.vertNormal);
+
 	mainShader.matProjection = gl.getUniformLocation(mainShader, "matProjection");
 	mainShader.matModelView = gl.getUniformLocation(mainShader, "matModelView");
 }
@@ -61,8 +68,7 @@ function scene_initGeometry()
 	];
 	gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(colors), gl.STATIC_DRAW);
 	triColorBuffer.itemSize = 4;
-	triPositionBuffer.numItems = 3;
-
+	triColorBuffer.numItems = 3;
 
 	rectPositionBuffer = gl.createBuffer();
 	gl.bindBuffer(gl.ARRAY_BUFFER, rectPositionBuffer);
@@ -70,8 +76,7 @@ function scene_initGeometry()
 	[
 		1.0,  1.0,  0.0,
 		-1.0,  1.0,  0.0,
-		1.0, -1.0,  0.0,
-		-1.0, -1.0,  0.0
+		1.0, -1.0,  0.0
 	];
 	gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(vertices), gl.STATIC_DRAW);
 	rectPositionBuffer.itemSize = 3;
@@ -83,12 +88,24 @@ function scene_initGeometry()
 	[
 		1.0, 0.0, 0.0, 1.0,
 		0.0, 1.0, 0.0, 1.0,
-		0.0, 0.0, 1.0, 1.0,
-		1.0, 1.0, 1.0, 0.0
+		0.0, 0.0, 1.0, 1.0
 	];
 	gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(colors), gl.STATIC_DRAW);
 	rectColorBuffer.itemSize = 4;
 	rectColorBuffer.numItems = 3;
+
+
+	normalBuffer = gl.createBuffer();
+	gl.bindBuffer(gl.ARRAY_BUFFER, normalBuffer);
+	var normals =
+	[
+		0.0, 0.0, 1.0,
+		0.0, 0.0, 1.0,
+		0.0, 0.0, 1.0
+	];
+	gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(normals), gl.STATIC_DRAW);
+	normalBuffer.itemSize = 3;
+	normalBuffer.numItems = 3;
 }
 
 var rot = 0;
@@ -96,25 +113,38 @@ var rot = 0;
 function scene_draw()
 {
 	gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
-
 	mat4.copy(matModelView, orbitCam.getView());
 
+
+	// tri
 	mat4.translate(matModelView, matModelView, [-1.5, 0.0, 0.0]);
+
 	gl.bindBuffer(gl.ARRAY_BUFFER, triPositionBuffer);
 	gl.vertexAttribPointer(mainShader.vertPosition, triPositionBuffer.itemSize, gl.FLOAT, false, 0, 0);
 	gl.bindBuffer(gl.ARRAY_BUFFER, triColorBuffer);
 	gl.vertexAttribPointer(mainShader.vertColor, triColorBuffer.itemSize, gl.FLOAT, false, 0, 0);
+	gl.bindBuffer(gl.ARRAY_BUFFER, normalBuffer);
+	gl.vertexAttribPointer(mainShader.vertNormal, normalBuffer.itemSize, gl.FLOAT, false, 0, 0);
+
 	gl.uniformMatrix4fv(mainShader.matProjection, false, matProjection);
 	gl.uniformMatrix4fv(mainShader.matModelView, false, matModelView);
+
 	gl.drawArrays(gl.TRIANGLES, 0, triPositionBuffer.numItems);
 
+
+	// rect
 	mat4.translate(matModelView, matModelView, [3.0, 0.0, 0.0]);
+
 	gl.bindBuffer(gl.ARRAY_BUFFER, rectPositionBuffer);
 	gl.vertexAttribPointer(mainShader.vertPosition, rectPositionBuffer.itemSize, gl.FLOAT, false, 0, 0);	
 	gl.bindBuffer(gl.ARRAY_BUFFER, rectColorBuffer);
 	gl.vertexAttribPointer(mainShader.vertColor, rectColorBuffer.itemSize, gl.FLOAT, false, 0, 0);	
+	gl.bindBuffer(gl.ARRAY_BUFFER, normalBuffer);
+	gl.vertexAttribPointer(mainShader.vertNormal, normalBuffer.itemSize, gl.FLOAT, false, 0, 0);
+
 	gl.uniformMatrix4fv(mainShader.matProjection, false, matProjection);
 	gl.uniformMatrix4fv(mainShader.matModelView, false, matModelView);
+
 	gl.drawArrays(gl.TRIANGLE_STRIP, 0, rectPositionBuffer.numItems);
 }
 
