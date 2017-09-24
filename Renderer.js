@@ -161,7 +161,6 @@ function new_Renderer()
 		}
 
 		result += "}\n\n";
-console.log(result);
 		return result;
 	}
 

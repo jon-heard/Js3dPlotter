@@ -1,6 +1,6 @@
 "use strict";
 
-function new_OrbitCam(canvas, repaint)
+function new_OrbitCam(canvas)
 {
 	var mouseSensitivity = .1;
 	var zoomSpeed = .5;
@@ -11,6 +11,8 @@ function new_OrbitCam(canvas, repaint)
 
 	var previousMouse = vec3.create();
 	var previousRotation = quat.create();
+
+	var isChanged = false;
 
 	canvas.onmousedown = function(event)
 	{
@@ -33,7 +35,7 @@ function new_OrbitCam(canvas, repaint)
 				quat.setAxisAngle(rotation, mouseDelta, vec2.len(mouseDelta) * mouseSensitivity);
 				quat.mul(rotation, rotation, previousRotation);
 				canvas.onmousedown(event);
-				repaint();
+				isChanged = true;
 			}
 		}
 	};
@@ -45,7 +47,7 @@ function new_OrbitCam(canvas, repaint)
 		{
 			position[2] = -1;
 		}
-		repaint();
+		isChanged = true;
 	};
 
 	function getView()
@@ -60,6 +62,8 @@ function new_OrbitCam(canvas, repaint)
 	function setZoomSpeed(value) { zoomSpeed = value; }
 	function getViewDistance() { return position[2] * -1; }
 	function setViewDistance(value) { position[2] = value * -1; }
+	function getIsChanged() { return isChanged; }
+	function setIsChanged(value) { return isChanged = value; }
 
 	return {
 		getView: getView,
@@ -68,7 +72,9 @@ function new_OrbitCam(canvas, repaint)
 		getZoomSpeed: getZoomSpeed,
 		setZoomSpeed: setZoomSpeed,
 		getViewDistance: getViewDistance,
-		setViewDistance: setViewDistance
+		setViewDistance: setViewDistance,
+		getIsChanged: getIsChanged,
+		setIsChanged, setIsChanged
 	};
 }
 

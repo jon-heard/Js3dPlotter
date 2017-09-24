@@ -1,7 +1,5 @@
-- create a sceneState object and render with it
-  - use sphere and column for vertices and edges
-- create methods to setup a scenestate (the methods used in script)
-  - v(), c(), vector(), color()
+- get renderLine() working and add it to sceneState rendering
+
 - have script be called on each change to setup new scenestate.  If valid and different from current scenestate then set as current
 
 - add a statusbar lib
@@ -39,8 +37,9 @@
 - save script as cookie (or whatever)
 
 - fix renderer
-	- assignable render attributes: coloring, lighting, ambient
-	- add ambient light
+	- setColor(value) value = If array: color is oneColor, if buffer: color is vertColor
+	- setAmbient(value) value = float representing ambience
+	- setLighting(VIEW || TOP || TOP_BOTTOM)
 
 - hovering over points in the 3d scene highlights them (?) and brings up their info in statusbar
 
