@@ -18,6 +18,18 @@ function new_SceneState(gl)
 	var primitiveRenderer = new_PrimitiveRenderer(gl, renderer);
 	var currentRenderFunction = renderer.render_vertColored_viewLit;
 
+	function getAllData()
+	{
+		return [backgroundColor, vertices, colors, normals];
+	}
+
+	function equals(other)
+	{
+		var thisData = getAllData();
+		var otherData = other.getAllData();
+		return thisData.equals(otherData);
+	}
+
 	function refreshGeometry()
 	{
 		if (vertexBuffer == 0) { vertexBuffer = gl.createBuffer(); }
@@ -47,6 +59,7 @@ function new_SceneState(gl)
 	function render(matProjection, matModelView)
 	{
 		if (isChanged) { refreshGeometry(); }
+		if (isEmpty()) { return; }
 		currentRenderFunction(matProjection, matModelView, vertexBuffer, colorBuffer, normalBuffer);
 		for (var i = 0; i < vertices.length; i += 3)
 		{
@@ -74,6 +87,14 @@ function new_SceneState(gl)
 		normals = [];
 		isChanged = true;
 	}
+
+	function isEmpty()
+	{
+		return (vertices.length == 0);
+	}
+
+	function getIsChanged() { return isChanged; }
+	function setIsChanged(value) { isChanged = value; }
 
 	function getBackgroundColor() { return backgroundColor; }
 	function setBackgroundColor(red, green, blue, alpha)
@@ -118,8 +139,13 @@ function new_SceneState(gl)
 	}
 
 	return {
+		getAllData: getAllData,
+		equals: equals,
 		render: render,
 		clear: clear,
+		isEmpty: isEmpty,
+		getIsChanged: getIsChanged,
+		setIsChanged: setIsChanged,
 		getBackgroundColor: getBackgroundColor,
 		setBackgroundColor: setBackgroundColor,
 		vertex: vertex,

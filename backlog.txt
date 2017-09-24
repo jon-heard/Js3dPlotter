@@ -1,8 +1,3 @@
-- have script be called on each change to setup new scenestate.  If valid and different from current scenestate then set as current
-
-- add a statusbar lib
-	- 2 parts: left=error, right=hovered point location and label
-- if script is bad, show error in status bar and set its color
 
 - look into opening and saving in client js
 - setup menu

@@ -29,6 +29,10 @@
 				float: left;
 				border: 2px gray inset;
 			}
+			#mainArea
+			{
+				height: calc(100% - 1.25em);
+			}
 			#editor
 			{
 				padding: .5em;
@@ -36,6 +40,17 @@
 				font-size: 15px;
 				resize: none;
 				margin: 0em;
+			}
+			#statusbar
+			{
+				width: 100%;
+				height: 1.25em;
+				-webkit-box-sizing: border-box;
+				-moz-box-sizing: border-box;
+				box-sizing: border-box;
+				background-color: grey;
+				border: 2px gray inset;
+				padding-left: 1em;
 			}
 			.gutter.gutter-horizontal
 			{
@@ -50,9 +65,12 @@
 		</style>
 	</head>
 
-	<body onload='new_Scene("scene", "editor");'>
-		<textarea id='editor' class='splitPanel'></textarea>
-		<canvas id='scene' class='splitPanel'></canvas>
+	<body onload='new_Scene("scene", "editor", "statusbar");'>
+		<div id='mainArea'>
+			<textarea id='editor' class='splitPanel'></textarea>
+			<canvas id='scene' class='splitPanel'></canvas>
+		</div>
+		<div id='statusbar'></div>
 	</body>
 </html>
 

@@ -1,15 +1,19 @@
 "use strict";
 
-function new_Scene(canvasId, editorId)
+function new_Scene(canvasId, editorId, statusbarId)
 {
 	var canvas = document.getElementById(canvasId);
 	var editor = document.getElementById(editorId);
+	var statusbar = document.getElementById(statusbarId);
 	var gl;
 	var orbitCam;
-	var sceneState;
 
 	var matProjection = mat4.create();
 	var matModelView = mat4.create();
+
+	var state1;
+	var state2;
+	var currentState;
 
 	try
 	{
@@ -27,20 +31,41 @@ function new_Scene(canvasId, editorId)
 	//gl.cullFace(gl.BACK);
 
 	orbitCam = new_OrbitCam(canvas);
-	sceneState = new_SceneState(gl);
+	state1 = new_SceneState(gl);
+	state2 = new_SceneState(gl);
+	currentState = state1;
 
-	sceneState.color(1.0, 0.0, 0.0);
-	sceneState.vertex(-1.5, 1.0, 0.0);
-	sceneState.color(0.0, 1.0, 0.0);
-	sceneState.vertex(-2.5, -1.0, 0.0);
-	sceneState.color(0.0, 0.0, 1.0);
-	sceneState.vertex(0.5, -1.0, 0.0);
-	sceneState.color(1.0, 1.0, 0.0);
-	sceneState.vertex(2.5, 1.0, 0.0);
-	sceneState.color(1.0, 0.0, 1.0);
-	sceneState.vertex(1.0, 1.0, 0.0);
-	sceneState.color(0.0, 1.0, 1.0);
-	sceneState.vertex(2.5, -1.0, 0.0);
+	editor.onkeyup = function()
+	{
+		try
+		{
+			var backState = currentState==state1 ? state2 : state1;
+			backState.clear();
+			(new Function(
+				"vertex",
+				"v",
+				"color",
+				"c",
+				"'use strict'; " + editor.value))(
+				backState.vertex,
+				backState.vertex,
+				backState.color,
+				backState.color
+			);
+			statusbar.innerHTML = "Script OK";
+			statusbar.style.backgroundColor = "gray";
+			if (!backState.equals(currentState))
+			{
+				currentState = backState;
+			}
+		}
+		catch (e)
+		{
+			statusbar.innerHTML = e.message;
+			statusbar.style.backgroundColor = "red";
+		}
+	}
+	editor.onkeyup();
 
 	function tick()
 	{
@@ -56,14 +81,14 @@ function new_Scene(canvasId, editorId)
 			gl.viewport(0, 0, width, height);
 			mat4.perspective(matProjection, 45, width / height, 0.1, 1000.0);
 		}
-		if (canvasChanged || orbitCam.getIsChanged())
+		if (canvasChanged || orbitCam.getIsChanged() || currentState.getIsChanged())
 		{
 			orbitCam.setIsChanged(false);
-			var clearColor = sceneState.getBackgroundColor();
+			var clearColor = currentState.getBackgroundColor();
 			gl.clearColor(clearColor[0], clearColor[1], clearColor[2], clearColor[3]);
 			gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
 			mat4.copy(matModelView, orbitCam.getView());
-			sceneState.render(matProjection, matModelView);
+			currentState.render(matProjection, matModelView);
 		}
 		requestAnimationFrame(tick);
 	}
