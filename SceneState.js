@@ -1,6 +1,6 @@
 "use strict";
 
-function new_SceneState()
+function new_SceneState(gl)
 {
 	var vertices = [];
 	var colors = [];
@@ -14,8 +14,8 @@ function new_SceneState()
 	var currentColor = [1.0, 1.0, 1.0, 1.0];
 	var isChanged = false;
 
-	var renderer = new_Renderer();
-	var primitiveRenderer = new_PrimitiveRenderer(renderer);
+	var renderer = new_Renderer(gl);
+	var primitiveRenderer = new_PrimitiveRenderer(gl, renderer);
 	var currentRenderFunction = renderer.render_vertColored_viewLit;
 
 	function refreshGeometry()

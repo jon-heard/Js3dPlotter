@@ -1,6 +1,6 @@
 "use strict";
 
-function new_PrimitiveRenderer(renderer)
+function new_PrimitiveRenderer(gl, renderer)
 {
 	var resolution = 4;
 

@@ -12,7 +12,7 @@
 		<script type='text/javascript' src='libs/PrimitiveRenderer.js'></script>
 		<script type='text/javascript' src='Renderer.js'></script>
 		<script type='text/javascript' src='SceneState.js'></script>
-		<script type='text/javascript' src='scene.js'></script>
+		<script type='text/javascript' src='Scene.js'></script>
 
 		<style>
 			body
@@ -50,7 +50,7 @@
 		</style>
 	</head>
 
-	<body onload='scene_init("scene")'>
+	<body onload='new_Scene("scene", "editor");'>
 		<textarea id='editor' class='splitPanel'></textarea>
 		<canvas id='scene' class='splitPanel'></canvas>
 	</body>

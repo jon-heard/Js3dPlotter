@@ -1,6 +1,6 @@
 "use strict";
 
-function new_Renderer()
+function new_Renderer(gl)
 {
 	var shader_vertColored_flat;
 	var shader_vertColored_viewLit;
