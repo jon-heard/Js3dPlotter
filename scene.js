@@ -1,8 +1,10 @@
+"use strict";
 
 var mainCanvas;
 var gl;
 var orbitCam;
 var renderer;
+var primitiveRenderer;
 var currentRenderFunction;
 
 var matProjection = mat4.create();
@@ -87,8 +89,13 @@ function scene_draw()
 {
 	gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
 	mat4.copy(matModelView, orbitCam.getView());
+
+	primitiveRenderer.renderPoint(matProjection, matModelView, vec3.fromValues(0,1.5,0), 1.0, [1,1,0,1]);
+	primitiveRenderer.renderLine(matProjection, matModelView, vec3.fromValues(0,-1.5,0), vec3.fromValues(0,0,0), 1.0, [1,0,1,1]);
+
 	mat4.translate(matModelView, matModelView, [-1.5, 0.0, 0.0]);
 	currentRenderFunction(matProjection, matModelView, triPositionBuffer, colorBuffer, normalBuffer);
+
 	mat4.translate(matModelView, matModelView, [3.0, 0.0, 0.0]);
 	currentRenderFunction(matProjection, matModelView, rectPositionBuffer, colorBuffer, normalBuffer);
 }
@@ -115,12 +122,15 @@ function scene_init(canvasId)
 	var canvas = document.getElementById(canvasId);
 	scene_initGL(canvas);
 	scene_initGeometry();
-	orbitCam  = new_OrbitCam(canvas, scene_draw);
-	renderer  = new_Renderer();
+	orbitCam = new_OrbitCam(canvas, scene_draw);
+	renderer = new_Renderer();
+	primitiveRenderer = new_PrimitiveRenderer(renderer);
 	currentRenderFunction = renderer.render_vertColored_viewLit;
 
 	gl.clearColor(0.0, 0.0, 0.0, 1.0);
 	gl.enable(gl.DEPTH_TEST);
+	//gl.enable(gl.CULL_FACE);
+	//gl.cullFace(gl.BACK);
 
 	tick();
 }

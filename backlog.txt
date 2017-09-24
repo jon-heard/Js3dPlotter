@@ -1,6 +1,3 @@
-- Setup renderer
-- create lib to render primitive meshes (sphere and column)
-
 - create a sceneState object and render with it
   - use sphere and column for vertices and edges
 - create methods to setup a scenestate (the methods used in script)
@@ -22,13 +19,13 @@
 	- Settings
 		- ^ Show labels
 		- ^ show coordinates
-		- select shader
-			- ^- flat
-			- ^- view-lit
-			- ^- top-lit
-			- ^- top/bottom-lit
+		- select light source
+			- ^- view
+			- ^- top
+			- ^- top & Bottom
+		- ambience: num select
 		-------
-		- mouse sensitivity: num select (like zoom in firefox)
+		- mouse sensitivity: num select
 		- zoom sensitivity: num select
 		-------
 		- ^ outline triangles
@@ -37,9 +34,13 @@
 		-------
 		- point/line color...
 		- Point/line size: num select
-		- point/line resolution: num select (1 to 4)
+		- point/line resolution: num select (1 to 6)
 - save settings (and split place) as cookie (or whatever)
 - save script as cookie (or whatever)
 
-- hovering over points in the 3d scene highlights them and brings up their info in statusbar
+- fix renderer
+	- assignable render attributes: coloring, lighting, ambient
+	- add ambient light
+
+- hovering over points in the 3d scene highlights them (?) and brings up their info in statusbar
 

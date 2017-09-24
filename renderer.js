@@ -1,3 +1,4 @@
+"use strict";
 
 function new_Renderer()
 {
@@ -76,7 +77,7 @@ function new_Renderer()
 		var shader = shader_oneColored_flat;
 		gl.useProgram(shader);
 		render_generic(projection, modelView, positions, shader);
-		gl.uniformMatrix4fv(shader.uniColor, false, color);
+		gl.uniform4fv(shader.uniColor, color);
 		gl.drawArrays(gl.TRIANGLES, 0, positions.numItems);
 	}
 
@@ -85,7 +86,7 @@ function new_Renderer()
 		var shader = shader_oneColored_viewLit;
 		gl.useProgram(shader);
 		render_generic(projection, modelView, positions, shader);
-		gl.uniformMatrix4fv(shader.uniColor, false, color);
+		gl.uniform4fv(shader.uniColor, color);
 		gl.enableVertexAttribArray(shader.atrNormal);
 		gl.bindBuffer(gl.ARRAY_BUFFER, normals);
 		gl.vertexAttribPointer(shader.atrNormal, normals.itemSize, gl.FLOAT, false, 0, 0);
@@ -97,7 +98,7 @@ function new_Renderer()
 		var shader = shader_oneColored_topLit;
 		gl.useProgram(shader);
 		render_generic(projection, modelView, positions, shader);
-		gl.uniformMatrix4fv(shader.uniColor, false, color);
+		gl.uniform4fv(shader.uniColor, color);
 		gl.enableVertexAttribArray(shader.atrNormal);
 		gl.bindBuffer(gl.ARRAY_BUFFER, normals);
 		gl.vertexAttribPointer(shader.atrNormal, normals.itemSize, gl.FLOAT, false, 0, 0);
@@ -109,7 +110,7 @@ function new_Renderer()
 		var shader = shader_oneColored_topBottomLit;
 		gl.useProgram(shader);
 		render_generic(projection, modelView, positions, shader);
-		gl.uniformMatrix4fv(shader.uniColor, false, color);
+		gl.uniform4fv(shader.uniColor, color);
 		gl.enableVertexAttribArray(shader.atrNormal);
 		gl.bindBuffer(gl.ARRAY_BUFFER, normals);
 		gl.vertexAttribPointer(shader.atrNormal, normals.itemSize, gl.FLOAT, false, 0, 0);
@@ -150,7 +151,7 @@ function new_Renderer()
 			result += (isDoubleLightDirection ? "abs(" : "");
 			result += "dot(vec3(";
 			result += lightDirection[0] + "," + lightDirection[1] + "," + lightDirection[2];
-			result += "), vec3(vec4(atrNormal, 0.0) * uniModelView))"
+			result += "), normalize(vec3(uniModelView * vec4(atrNormal, 0.0))))"
 			result += (isDoubleLightDirection ? ")" : "");
 			result += ", 0.0, 1.0);\n";
 		}
@@ -160,6 +161,7 @@ function new_Renderer()
 		}
 
 		result += "}\n\n";
+console.log(result);
 		return result;
 	}
 
@@ -209,6 +211,7 @@ function new_Renderer()
 		result.atrColor = gl.getAttribLocation(result, "atrColor");
 		result.uniProjection = gl.getUniformLocation(result, "uniProjection");
 		result.uniModelView = gl.getUniformLocation(result, "uniModelView");
+		result.uniColor = gl.getUniformLocation(result, "uniColor");
 		return result;
 	}
 
