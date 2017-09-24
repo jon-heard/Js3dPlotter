@@ -234,9 +234,22 @@ function new_PrimitiveRenderer(renderer)
 
 	function renderLine(matProjection, matModelView, position1, position2, size, color)
 	{
+		var length = vec3.distance(position1, position2);
+		var position = vec3.create();
+		vec3.average(position, position1, position2);
+		// rotation
+		var unitDir = vec3.create();
+		vec3.sub(unitDir, position1, position2);
+		vec3.normalize(unitDir, unitDir);
+		var rotation = quat.create();
+		quat.rotationTo(rotation, vec3.fromValues(0.0, 1.0, 0.0), unitDir);
+		var rotationAxis = vec3.create();
+		var rotationAngle = quat.getAxisAngle(rotationAxis, rotation);
+
 		var transform = mat4.clone(matModelView);
-		mat4.scale(transform, transform, vec3.fromValues(size, size, size));
-		mat4.translate(transform, transform, position1);
+		mat4.translate(transform, transform, position);
+		mat4.rotate(transform, transform, rotationAngle, rotationAxis);
+		mat4.scale(transform, transform, vec3.fromValues(size, length, size));
 		renderer.render_oneColored_viewLit(matProjection, transform, lineBuffer, color, lineNormalBuffer);
 	}
 

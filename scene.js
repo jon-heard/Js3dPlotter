@@ -65,7 +65,7 @@ function scene_init(canvasId)
 	sceneState.color(1.0, 1.0, 0.0);
 	sceneState.vertex(2.5, 1.0, 0.0);
 	sceneState.color(1.0, 0.0, 1.0);
-	sceneState.vertex(0.5, 1.0, 0.0);
+	sceneState.vertex(1.0, 1.0, 0.0);
 	sceneState.color(0.0, 1.0, 1.0);
 	sceneState.vertex(2.5, -1.0, 0.0);
 

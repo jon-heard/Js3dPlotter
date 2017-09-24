@@ -51,7 +51,19 @@ function new_SceneState()
 		for (var i = 0; i < vertices.length; i += 3)
 		{
 			var vertex = vec3.fromArray(vertices, i);
-			primitiveRenderer.renderPoint(matProjection, matModelView, vertex, 0.1, [1,1,1,1]);
+			primitiveRenderer.renderPoint(matProjection, matModelView, vertex, 0.05, [1,1,1,1]);
+			if ((i+3) % 9 == 0)
+			{
+				var v1 = vec3.fromArray(vertices, i);
+				var v2 = vec3.fromArray(vertices, i-6);
+				primitiveRenderer.renderLine(matProjection, matModelView, v1, v2, 0.05, [1,1,1,1]);
+			}
+			else if (i < vertices.length-3)
+			{
+				var v1 = vec3.fromArray(vertices, i);
+				var v2 = vec3.fromArray(vertices, i+3);
+				primitiveRenderer.renderLine(matProjection, matModelView, v1, v2, 0.05, [1,1,1,1]);
+			}
 		}
 	}
 
