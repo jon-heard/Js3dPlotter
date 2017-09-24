@@ -1,0 +1,43 @@
+
+.menu
+{
+	margin-left: 1em;
+	cursor: pointer;
+
+	-webkit-user-select: none; /* webkit (safari, chrome) browsers */
+	-moz-user-select: none; /* mozilla browsers */
+	-khtml-user-select: none; /* webkit (konqueror) browsers */
+	-ms-user-select: none; /* IE10+ */
+}
+
+.menuContent
+{
+	display: none;
+	position: absolute;
+	background-color: grey;
+	box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+	z-index: 1;
+	margin-top: .1em;
+
+	-webkit-user-select: none; /* webkit (safari, chrome) browsers */
+	-moz-user-select: none; /* mozilla browsers */
+	-khtml-user-select: none; /* webkit (konqueror) browsers */
+	-ms-user-select: none; /* IE10+ */
+}
+
+.menuItem, .menuToggle, .menuNumber
+{
+	margin: .1em 1em;
+	cursor: pointer;
+}
+
+.menu:hover, .menuItem:hover, .menuToggle:hover, .menuNumber:hover
+{
+	background-color: lightgrey;
+}
+
+.show
+{
+	display: inherit;
+}
+

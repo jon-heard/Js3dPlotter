@@ -1,38 +1,15 @@
-
-- look into opening and saving in client js
-- setup menu
-	- file: new, open..., save, save as..., exit
-	- demos
-		- box
-		- sphere
-		- face
-		- ...
-	- Settings
-		- ^ Show labels
-		- ^ show coordinates
-		- select light source
-			- ^- view
-			- ^- top
-			- ^- top & Bottom
-		- ambience: num select
-		-------
-		- mouse sensitivity: num select
-		- zoom sensitivity: num select
-		-------
-		- ^ outline triangles
-		- outline color...
-		- outline size: num select
-		-------
-		- point/line color...
-		- Point/line size: num select
-		- point/line resolution: num select (1 to 6)
+- setup menuToggle and menuNumber
+- hook in all the menus
 - save settings (and split place) as cookie (or whatever)
 - save script as cookie (or whatever)
+
+- look into opening and saving in client js
 
 - fix renderer
 	- setColor(value) value = If array: color is oneColor, if buffer: color is vertColor
 	- setAmbient(value) value = float representing ambience
 	- setLighting(VIEW || TOP || TOP_BOTTOM)
 
+- display labels
 - hovering over points in the 3d scene highlights them (?) and brings up their info in statusbar
 
