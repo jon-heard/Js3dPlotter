@@ -17,19 +17,41 @@
 	background-color: grey;
 	box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
 	z-index: 1;
-	margin-top: .1em;
-
+	margin-top: 3px;
 	-webkit-user-select: none; /* webkit (safari, chrome) browsers */
 	-moz-user-select: none; /* mozilla browsers */
 	-khtml-user-select: none; /* webkit (konqueror) browsers */
 	-ms-user-select: none; /* IE10+ */
 }
 
-.menuItem, .menuToggle, .menuNumber
+.menuItem, .menuToggle
 {
 	margin: .1em 1em;
 	cursor: pointer;
 }
+
+.menuNumber
+{
+	margin: .1em 1em;
+}
+
+.menuNumber_less, .menuNumber_value, .menuNumber_more
+{
+	float: right;
+}
+
+.menuNumber_value
+{
+	margin: 0em .5em;
+}
+
+.menuNumber_less
+{
+	margin-left: 1em;
+}
+
+.menuNumber_less::before { content: "<"; }
+.menuNumber_more::before { content: ">"; }
 
 .menu:hover, .menuItem:hover, .menuToggle:hover, .menuNumber:hover
 {
@@ -39,5 +61,17 @@
 .show
 {
 	display: inherit;
+}
+
+.menuToggle::before
+{
+	content: url("unchecked.png");
+	padding-right: .35em;
+	vertical-align: -7.5%;
+}
+
+.menuToggle.checked::before
+{
+	content: url("checked.png");
 }
 

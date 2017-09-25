@@ -1,4 +1,7 @@
-- setup menuToggle and menuNumber
+- menuNumber
+	- change number when less or more clicked
+	- trigger event when changed
+	- setup and use min,max,increment
 - hook in all the menus
 - save settings (and split place) as cookie (or whatever)
 - save script as cookie (or whatever)

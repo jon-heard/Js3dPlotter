@@ -1,5 +1,4 @@
 <html lang="en">
-
 	<head>
 		<title>Js 3d Plotter</title>
 		<meta http-equiv='content-type' content='text/html; charset=ISO-8859-1'>
@@ -34,16 +33,17 @@
 			#menubar
 			{
 				width: 100%;
-				height: 1.25em;
+				height: 1.5em;
 				-webkit-box-sizing: border-box;
 				-moz-box-sizing: border-box;
 				box-sizing: border-box;
 				background-color: grey;
-				border: 2px gray outset;
+				border-top: 2px gray outset;
+				border-bottom: 2px gray outset;
 			}
 			#mainArea
 			{
-				height: calc(100% - 2.5em);
+				height: calc(100% - 3em);
 			}
 			#editor
 			{
@@ -56,7 +56,7 @@
 			#statusbar
 			{
 				width: 100%;
-				height: 1.25em;
+				height: 1.5em;
 				-webkit-box-sizing: border-box;
 				-moz-box-sizing: border-box;
 				box-sizing: border-box;
@@ -77,44 +77,44 @@
 		</style>
 	</head>
 
-	<body onload='new_Scene("scene", "editor", "statusbar");'>
+	<body>
 		<div id='menubar'>
 			<span class='menu'>File</span>
 			<div class='menuContent'>
-				<div class='menuItem'>New</div>
-				<div class='menuItem'>Open...</div>
-				<div class='menuItem'>Save As...</div>
+				<div id='menu_new' class='menuItem'>New</div>
+				<div id='menu_open' class='menuItem'>Open...</div>
+				<div id='menu_saveAs' class='menuItem'>Save As...</div>
 			</div>
-			<span class='menu' onclick=''>Demos</span>
+			<span class='menu'>Demos</span>
 			<div class='menuContent'>
-				<div class='menuItem'>Box</div>
-				<div class='menuItem'>Sphere</div>
-				<div class='menuItem'>Face</div>
+				<div id='menu_content_box' class='menuItem'>Box</div>
+				<div id='menu_content_sphere' class='menuItem'>Sphere</div>
+				<div id='menu_content_face' class='menuItem'>Face</div>
 			</div>
-			<span class='menu' onclick=''>Settings</span>
+			<span class='menu'>Settings</span>
 			<div class='menuContent'>
-				<div class='menuToggle'>Show labels?</div>
-				<div class='menuToggle'>Show coordinates?</div>
+				<div id='menu_showLabels' class='menuToggle'>Show labels</div>
+				<div id='menu_showCoordinates' class='menuToggle'>Show coordinates</div>
 				<hr/>
 				<div class='menu'>Select light source</div>
-				<div class='menuNumber'>Ambience</div>
+				<div id='menu_ambience' class='menuNumber' data-val='0' data-min='0' data-max='1' data-inc='.1'>Ambience</div>
 				<hr/>
-				<div class='menuNumber'>Mouse sensitivity</div>
-				<div class='menuNumber'>Zoom sensitivity</div>
+				<div id='menu_mouseSensitivity' class='menuNumber' data-value='.1'>Mouse sensitivity</div>
+				<div id='menu_zoomSensitivity' class='menuNumber' data-value='.5'>Zoom sensitivity</div>
 				<hr/>
-				<div class='menuToggle'>Outline triangles?</div>
-				<div class='menuItem'>Outline color...</div>
-				<div class='menuNumber'>Outline Size</div>
+				<div id='menu_outlineTriangles' class='menuToggle'>Outline triangles</div>
+				<div id='menu_outlineSize' class='menuNumber' data-value='.1'>Outline Size</div>
+				<div id='menu_outlineColor' class='menuItem'>Outline color...</div>
 				<hr/>
-				<div class='menuItem'>Point/line color...</div>
-				<div class='menuNumber'>Point/line size</div>
-				<div class='menuNumber'>Point/line resolution</div>
+				<div id='menu_pointSize' class='menuNumber' data-value='.1'>Point/line size</div>
+				<div id='menu_pointResolution' class='menuNumber' data-value='4'>Point/line resolution</div>
+				<div id='menu_pointColor' class='menuItem'>Point/line color...</div>
 			</div>
-			<span class='menu' onclick=''>Help</span>
+			<span class='menu'>Help</span>
 			<div class='menuContent'>
-				<div class='menuItem' onclick='uiHelp()'>UI...</div>
-				<div class='menuItem' onclick='scriptHelp()'>Scripting...</div>
-				<div class='menuItem' onclick='about()'>About...</div>
+				<div id='menu_help_ui' class='menuItem'>UI...</div>
+				<div id='menu_help_script' class='menuItem'>Scripting...</div>
+				<div id='menu_about' class='menuItem'>About...</div>
 			</div>
 		</div>
 		<div id='mainArea'>
@@ -126,12 +126,21 @@
 </html>
 
 <script type='text/javascript'>
-	Split(['#editor', '#scene'], {
-		sizes: [25, 75],
-		minSize: 200,
-		gutterSize: 9
-	});
-
+	function showLabels()
+	{
+		if (this.getIsChecked())
+		{
+			console.log("checked");
+		}
+		else
+		{
+			console.log("unchecked");
+		}
+	}
+	function ambience()
+	{
+		console.log(this.getValue());
+	}
 	function uiHelp()
 	{
 		alert("ui help");
@@ -144,5 +153,22 @@
 	{
 		alert("about");
 	}
+
+	window.addEventListener("DOMContentLoaded", function(event)
+	{
+		new_Scene("scene", "editor", "statusbar");
+		
+		document.getElementById('menu_showLabels').addEventListener("click", showLabels);
+		document.getElementById('menu_ambience').addEventListener("click", ambience);
+		document.getElementById('menu_help_ui').addEventListener("click", uiHelp);
+		document.getElementById('menu_help_script').addEventListener("click", scriptHelp);
+		document.getElementById('menu_about').addEventListener("click", about);		
+		
+		Split(['#editor', '#scene'], {
+			sizes: [25, 75],
+			minSize: 200,
+			gutterSize: 9
+		});
+	});
 </script>
 
